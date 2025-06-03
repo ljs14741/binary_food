@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://food.binaryworld.kr/sitemap.xml
