@@ -24,6 +24,20 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
+    @GetMapping("/about")
+    public String about() {
+        return "common/about";
+    }
+
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy() {
+        return "common/privacy-policy";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "common/contact";
+    }
 
     @GetMapping("/")
     public String foodMain(Model model) {
