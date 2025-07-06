@@ -6,6 +6,9 @@ import com.example.food.entity.Food;
 import com.example.food.entity.FoodCategory;
 import com.example.food.service.FoodCategoryService;
 import com.example.food.service.FoodService;
+import com.example.food.service.VisitorService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class FoodController {
     @Autowired
     private FoodService foodService;
 
+    private final VisitorService visitorService;
+
     @GetMapping("/about")
     public String about() {
         return "common/about";
@@ -40,9 +45,10 @@ public class FoodController {
     }
 
     @GetMapping("/")
-    public String foodMain(Model model) {
+    public String foodMain(Model model, HttpServletRequest request, HttpServletResponse response) {
         List<FoodCategoryDTO> categories = foodCategoryService.getAllCategories();
         model.addAttribute("categories", categories);
+        visitorService.countVisitIfNeeded(request, response, "food");
         return "food";
     }
 
