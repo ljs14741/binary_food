@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>오늘 뭐 먹지? 랜덤 음식 추천 | Binary World</title>
     <meta charset="UTF-8">
@@ -44,8 +44,9 @@
     <meta name="msapplication-TileImage" content="/img/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- ✅ Fonts & CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://binaryworld.kr/common/header.css">
     <link rel="stylesheet" href="https://binaryworld.kr/common/footer.css">
     <link rel="stylesheet" href="https://binaryworld.kr/common/guestbook.css">
@@ -58,93 +59,108 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body>
+<body class="bw-food-body">
 <header id="global-header" aria-label="Binary World 공통 메뉴"></header>
 <div class="page-title">
-    <h1>랜덤 음식 추천 사이트 | Binary World</h1>
-    <p>오늘 뭐 먹을지 고민된다구?! 뽑기 눌러~</p>
+    <p class="bw-food-kicker">Binary World</p>
+    <h1>랜덤 음식 추천 사이트</h1>
+    <p>오늘 뭐 먹을지 고민될 때, 뽑기로 한 번에 정하세요</p>
+</div>
+
+<div class="icon-container">
+    <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
+    <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
+    <a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
 </div>
 
 <div class="container-food">
-    <!-- 카테고리 카드 -->
-    <div class="category-container">
-        <div th:each="category : ${categories}" class="category">
-            <img th:src="@{${category.foodCategoryImg}}" th:alt="${category.foodCategoryName}">
-            <p th:text="${category.foodCategoryName}"></p>
+    <section class="bw-food-section" aria-labelledby="food-categories-title">
+        <div class="bw-food-section-head">
+            <h2 id="food-categories-title">메뉴 카테고리</h2>
+            <p>한식부터 분식까지, 분위기부터 고르세요</p>
         </div>
-    </div>
+        <div class="category-container">
+            <div th:each="category : ${categories}" class="category">
+                <img th:src="@{${category.foodCategoryImg}}" th:alt="${category.foodCategoryName}">
+                <p th:text="${category.foodCategoryName}"></p>
+            </div>
+        </div>
+    </section>
 
-    <div class="icon-container">
-        <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
-        <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
-        <a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
-    </div>
-
-    <!-- 랜덤 뽑기 4개 카드 -->
-    <div class="food-bottom-container">
-        <div class="food-random-box">
-            <button id="randomCategoryBtn">카테고리 랜덤 뽑기</button>
-            <div class="food random-user-food-result">
-                <p id="randomCategoryName">뽑기를 클릭하세요!</p>
-            </div>
+    <section class="bw-food-section" aria-labelledby="food-draw-title">
+        <div class="bw-food-section-head">
+            <h2 id="food-draw-title">빠른 뽑기</h2>
+            <p>버튼 하나로 오늘 메뉴를 뽑습니다</p>
         </div>
-        <div class="food-random-box">
-            <button id="randomFoodBtn">음식 랜덤 뽑기</button>
-            <div class="food random-user-food-result">
-                <p id="randomFoodName1">뽑기를 클릭하세요!</p>
-            </div>
-        </div>
-        <div class="food-random-box">
-            <button id="randomLunchBtn">점심 랜덤 뽑기</button>
-            <div class="food random-user-food-result">
-                <p id="randomLunchName">뽑기를 클릭하세요!</p>
-            </div>
-        </div>
-        <div class="food-random-box">
-            <button id="randomSnacksBtn">술안주 랜덤 뽑기</button>
-            <div class="food random-user-food-result">
-                <p id="randomSnacksName">뽑기를 클릭하세요!</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- 하단 카테고리 기반, 사용자 입력 기반 뽑기 -->
-    <div class="food-bottom-container">
-        <div class="food-bottom-box">
-            <form class="food-form" id="randomFoodForm">
-                <label for="categoryId">카테고리 선택:</label>
-                <select id="categoryId" name="categoryId">
-                    <option value="">전체</option>
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.foodCategoryName}"></option>
-                </select>
-                <!-- 버튼을 type="button"으로 변경 -->
-                <div class="button-container">
-                    <button type="button" id="randomFoodFormBtn">랜덤 뽑기</button>
-                </div>
+        <div class="food-bottom-container">
+            <div class="food-random-box">
+                <button id="randomCategoryBtn" type="button">카테고리 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
-                    <p id="randomFoodName2">뽑기를 클릭하세요!</p>
+                    <p id="randomCategoryName">뽑기를 클릭하세요!</p>
                 </div>
-            </form>
-        </div>
-
-        <div class="food-bottom-box">
-            <form class="food-form" id="userInputForm">
-                <label for="food1">음식 1:</label>
-                <input type="text" id="food1" name="foodName" required>
-                <label for="food2">음식 2:</label>
-                <input type="text" id="food2" name="foodName" required>
-                <div id="additionalFoods"></div>
+            </div>
+            <div class="food-random-box">
+                <button id="randomFoodBtn" type="button">음식 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
-                    <p id="randomUserFoodName">뽑기를 클릭하세요!</p>
+                    <p id="randomFoodName1">뽑기를 클릭하세요!</p>
                 </div>
-                <div class="button-container">
-                    <button type="button" onclick="addFoodInput()">추가</button>
-                    <button type="button" id="removeFoodBtn" style="display:none;" onclick="removeLastFoodInput()">삭제</button>
-                    <button type="button" onclick="getRandomUserFood()">랜덤 뽑기</button>
+            </div>
+            <div class="food-random-box">
+                <button id="randomLunchBtn" type="button">점심 랜덤 뽑기</button>
+                <div class="food random-user-food-result">
+                    <p id="randomLunchName">뽑기를 클릭하세요!</p>
                 </div>
-            </form>
+            </div>
+            <div class="food-random-box">
+                <button id="randomSnacksBtn" type="button">술안주 랜덤 뽑기</button>
+                <div class="food random-user-food-result">
+                    <p id="randomSnacksName">뽑기를 클릭하세요!</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="bw-food-section" aria-labelledby="food-custom-title">
+        <div class="bw-food-section-head">
+            <h2 id="food-custom-title">직접 고르기</h2>
+            <p>카테고리를 고르거나, 후보를 직접 넣고 뽑아보세요</p>
+        </div>
+        <div class="food-bottom-container">
+            <div class="food-bottom-box">
+                <form class="food-form" id="randomFoodForm">
+                    <label for="categoryId">카테고리 선택</label>
+                    <select id="categoryId" name="categoryId">
+                        <option value="">전체</option>
+                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.foodCategoryName}"></option>
+                    </select>
+                    <div class="button-container">
+                        <button type="button" id="randomFoodFormBtn">랜덤 뽑기</button>
+                    </div>
+                    <div class="food random-user-food-result">
+                        <p id="randomFoodName2">뽑기를 클릭하세요!</p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="food-bottom-box">
+                <form class="food-form" id="userInputForm">
+                    <label for="food1">음식 1</label>
+                    <input type="text" id="food1" name="foodName" required>
+                    <label for="food2">음식 2</label>
+                    <input type="text" id="food2" name="foodName" required>
+                    <div id="additionalFoods"></div>
+                    <div class="food random-user-food-result">
+                        <p id="randomUserFoodName">뽑기를 클릭하세요!</p>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" onclick="addFoodInput()">추가</button>
+                        <button type="button" id="removeFoodBtn" style="display:none;" onclick="removeLastFoodInput()">삭제</button>
+                        <button type="button" onclick="getRandomUserFood()">랜덤 뽑기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
 </div>
 
 <div id="bw-guestbook" aria-label="방명록"></div>
