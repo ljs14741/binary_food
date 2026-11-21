@@ -1,0 +1,263 @@
+/*
+  음식 추천 화면 구조 (공용 부분은 binaryworld.kr/common/service.css)
+  색은 main-light.css / main-dark.css
+*/
+
+.container-food {
+  width: min(var(--bw-wrap), 100% - 2.5rem);
+  margin: 0.4rem auto 0;
+}
+
+.bw-food-section {
+  padding-top: 3rem;
+}
+
+.bw-food-section:first-child {
+  padding-top: 1rem;
+}
+
+.bw-food-section-head {
+  margin-bottom: 1.3rem;
+}
+
+.bw-food-section-head h2 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.bw-food-section-head p {
+  margin: 0;
+  color: var(--bw-muted);
+}
+
+/* ===== 메뉴 카테고리 사진 ===== */
+.category-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.9rem;
+}
+
+.category {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--bw-bg-2);
+  box-shadow: var(--bw-shadow);
+  aspect-ratio: 4 / 3;
+}
+
+.category img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--bw-ease);
+}
+
+/* 사진 위에 이름 */
+.category p {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1.6rem 0.9rem 0.7rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.category:hover img {
+  transform: scale(1.07);
+}
+
+/* ===== 빠른 뽑기 4칸 ===== */
+.food-bottom-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.food-random-box,
+.food-bottom-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  border: 1px solid var(--bw-border);
+  border-radius: var(--bw-radius);
+  background: var(--bw-surface-strong);
+  box-shadow: var(--bw-shadow);
+}
+
+.food-draw-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 16px;
+  background: var(--bw-accent-soft);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.food-random-box button,
+.food-bottom-box button {
+  min-height: 2.8rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--bw-accent), var(--bw-accent-deep));
+  color: var(--bw-on-accent);
+  font-size: 0.95rem;
+  font-weight: 800;
+  box-shadow: 0 8px 20px var(--bw-accent-shadow);
+  cursor: pointer;
+  transition: transform 0.2s var(--bw-ease), box-shadow 0.2s var(--bw-ease);
+}
+
+.food-random-box button:hover,
+.food-bottom-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px var(--bw-accent-shadow);
+}
+
+.food-random-box button:active,
+.food-bottom-box button:active {
+  transform: scale(0.97);
+}
+
+/* 뽑기 결과 칸 */
+.random-user-food-result {
+  display: grid;
+  place-items: center;
+  min-height: 4.2rem;
+  padding: 0.6rem;
+  border: 1.5px dashed var(--bw-border-strong);
+  border-radius: 16px;
+  background: var(--bw-bg);
+  text-align: center;
+}
+
+.random-user-food-result p {
+  margin: 0;
+  color: var(--bw-faint);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* 결과가 나오면 진하게 + 뿅 */
+.random-user-food-result.has-result {
+  border-style: solid;
+  border-color: var(--bw-accent);
+  background: var(--bw-accent-soft);
+}
+
+.random-user-food-result.has-result p {
+  color: var(--bw-text);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.random-user-food-result.is-pop p {
+  animation: bw-food-pop 0.45s var(--bw-ease);
+}
+
+@keyframes bw-food-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+/* ===== 직접 고르기 2칸 ===== */
+.bw-food-section[aria-labelledby="food-custom-title"] .food-bottom-container {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.food-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  height: 100%;
+}
+
+.food-form label {
+  color: var(--bw-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+#additionalFoods {
+  display: grid;
+  gap: 0.55rem;
+}
+
+#additionalFoods > div {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
+}
+
+.button-container button {
+  flex: 1;
+}
+
+/* 추가·삭제는 보조 버튼 */
+#userInputForm .button-container button:not(:last-child) {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--bw-border-strong);
+  color: var(--bw-text);
+  box-shadow: none;
+}
+
+#userInputForm .button-container button:not(:last-child):hover {
+  border-color: var(--bw-accent);
+  color: var(--bw-accent);
+}
+
+.food-form .random-user-food-result {
+  margin-top: auto;
+}
+
+@media (max-width: 960px) {
+  .food-bottom-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .container-food {
+    width: calc(100% - 2rem);
+  }
+
+  .category-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .food-random-box {
+    padding: 1rem;
+  }
+
+  .bw-food-section[aria-labelledby="food-custom-title"] .food-bottom-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 380px) {
+  .food-bottom-container {
+    grid-template-columns: 1fr;
+  }
+}

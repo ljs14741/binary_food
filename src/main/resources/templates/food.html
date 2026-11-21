@@ -50,6 +50,9 @@
     <link rel="stylesheet" href="https://binaryworld.kr/common/header.css">
     <link rel="stylesheet" href="https://binaryworld.kr/common/footer.css">
     <link rel="stylesheet" href="https://binaryworld.kr/common/guestbook.css">
+    <!-- 서비스 공용 디자인 (로컬 확인 땐 BW_COMMON 으로 주소를 바꿀 수 있음) -->
+    <link rel="stylesheet" th:href="${@environment.getProperty('bw.common', 'https://binaryworld.kr')} + '/common/service.css'" href="https://binaryworld.kr/common/service.css">
+    <link rel="stylesheet" th:href="@{/css/food-ui.css}">
     <link id="theme-style" rel="stylesheet" th:href="@{/css/main-light.css}">
     <script>
         // 다른 서브도메인에서 고른 테마 이어받기. 처음 온 사람은 밝게 (헤더가 뜨기 전에 미리 바꿔 깜빡임 막음)
@@ -76,58 +79,58 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
-<body class="bw-food-body">
+<body class="bw-food-body bw-svc-page">
 <header id="global-header" aria-label="Binary World 공통 메뉴"></header>
 <div class="page-title">
-    <h1>랜덤 음식 추천 사이트</h1>
+    <div class="bw-svc-toys" aria-hidden="true">
+        <span class="bw-toy bw-toy-bowl" style="--x:6%;--y:24%;--s:72px;--d:7s;--r0:-8deg;--r1:6deg"></span>
+        <span class="bw-toy bw-toy-donut" style="--x:86%;--y:16%;--s:60px;--d:6.5s;--delay:-2s;--r0:0deg;--r1:40deg"></span>
+        <span class="bw-toy bw-toy-dice" style="--x:88%;--y:64%;--s:54px;--d:8s;--delay:-1s;--r0:8deg;--r1:-12deg"></span>
+        <span class="bw-toy bw-toy-chip" style="--x:5%;--y:68%;--s:48px;--d:7.5s;--delay:-3s;--c1:#fdba74;--c2:#ea580c">?</span>
+        <span class="bw-toy bw-toy-star" style="--x:20%;--y:8%;--s:34px;--d:6s;--delay:-4s"></span>
+        <span class="bw-toy bw-toy-heart" style="--x:76%;--y:84%;--s:30px;--d:5.5s;--delay:-2s"></span>
+    </div>
+    <p class="bw-svc-eyebrow">What to eat</p>
+    <h1>랜덤 <span class="bw-svc-em">음식 추천</span> 사이트</h1>
     <p>오늘 뭐 먹을지 고민될 때, 뽑기로 한 번에 정하세요</p>
-</div>
-
-<div class="icon-container">
+    <div class="icon-container">
     <a id="btnTwitter" class="link-icon twitter" href="javascript:shareTwitter();"></a>
     <a id="btnFacebook" class="link-icon facebook" href="javascript:shareFacebook();"></a>
     <a id="btnKakao" class="link-icon kakao" href="javascript:shareKakao();"></a>
+    </div>
 </div>
 
-<div class="container-food">
-    <section class="bw-food-section" aria-labelledby="food-categories-title">
-        <div class="bw-food-section-head">
-            <h2 id="food-categories-title">메뉴 카테고리</h2>
-            <p>한식부터 분식까지, 분위기부터 고르세요</p>
-        </div>
-        <div class="category-container">
-            <div th:each="category : ${categories}" class="category">
-                <img th:src="@{${category.foodCategoryImg}}" th:alt="${category.foodCategoryName}">
-                <p th:text="${category.foodCategoryName}"></p>
-            </div>
-        </div>
-    </section>
 
+<div class="container-food">
     <section class="bw-food-section" aria-labelledby="food-draw-title">
         <div class="bw-food-section-head">
             <h2 id="food-draw-title">빠른 뽑기</h2>
             <p>버튼 하나로 오늘 메뉴를 뽑습니다</p>
         </div>
         <div class="food-bottom-container">
-            <div class="food-random-box">
+            <div class="food-random-box bw-tilt" data-tilt="5">
+                <span class="food-draw-icon" aria-hidden="true">🎲</span>
                 <button id="randomCategoryBtn" type="button">카테고리 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
                     <p id="randomCategoryName">뽑기를 클릭하세요!</p>
                 </div>
             </div>
-            <div class="food-random-box">
+            <div class="food-random-box bw-tilt" data-tilt="5">
+                <span class="food-draw-icon" aria-hidden="true">🍜</span>
                 <button id="randomFoodBtn" type="button">음식 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
                     <p id="randomFoodName1">뽑기를 클릭하세요!</p>
                 </div>
             </div>
-            <div class="food-random-box">
+            <div class="food-random-box bw-tilt" data-tilt="5">
+                <span class="food-draw-icon" aria-hidden="true">🍱</span>
                 <button id="randomLunchBtn" type="button">점심 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
                     <p id="randomLunchName">뽑기를 클릭하세요!</p>
                 </div>
             </div>
-            <div class="food-random-box">
+            <div class="food-random-box bw-tilt" data-tilt="5">
+                <span class="food-draw-icon" aria-hidden="true">🍺</span>
                 <button id="randomSnacksBtn" type="button">술안주 랜덤 뽑기</button>
                 <div class="food random-user-food-result">
                     <p id="randomSnacksName">뽑기를 클릭하세요!</p>
@@ -135,7 +138,6 @@
             </div>
         </div>
     </section>
-
     <section class="bw-food-section" aria-labelledby="food-custom-title">
         <div class="bw-food-section-head">
             <h2 id="food-custom-title">직접 고르기</h2>
@@ -174,6 +176,18 @@
                         <button type="button" onclick="getRandomUserFood()">랜덤 뽑기</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </section>
+    <section class="bw-food-section" aria-labelledby="food-categories-title">
+        <div class="bw-food-section-head">
+            <h2 id="food-categories-title">메뉴 카테고리</h2>
+            <p>한식부터 분식까지, 분위기부터 고르세요</p>
+        </div>
+        <div class="category-container">
+            <div th:each="category : ${categories}" class="category bw-tilt" data-tilt="6">
+                <img th:src="@{${category.foodCategoryImg}}" th:alt="${category.foodCategoryName}">
+                <p th:text="${category.foodCategoryName}"></p>
             </div>
         </div>
     </section>
@@ -286,6 +300,19 @@
     }
 
     setupKakaoShareButton();
+</script>
+<script th:src="${@environment.getProperty('bw.common', 'https://binaryworld.kr')} + '/common/service.js'" src="https://binaryworld.kr/common/service.js" defer></script>
+<script>
+    // 뽑기 결과가 바뀌면 칸을 진하게 하고 '뿅' 효과 (가벼운 CSS 애니메이션 하나)
+    document.querySelectorAll('.random-user-food-result p').forEach(function (p) {
+        var box = p.parentElement;
+        new MutationObserver(function () {
+            box.classList.add('has-result');
+            box.classList.remove('is-pop');
+            void box.offsetWidth;
+            box.classList.add('is-pop');
+        }).observe(p, { childList: true, characterData: true, subtree: true });
+    });
 </script>
 <script src="https://binaryworld.kr/common/header.js" defer></script>
 <script src="https://binaryworld.kr/common/footer.js" defer></script>
